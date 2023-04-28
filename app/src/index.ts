@@ -1,5 +1,7 @@
-const { PrismaClient } = require('@prisma/client')
-const prisma = new PrismaClient()
+import { PrismaClient } from '@prisma/client';
+
+const prisma = new PrismaClient();
+
 
 async function main() {
     const store = await prisma.store.create({
@@ -10,7 +12,7 @@ async function main() {
         }
     })
 
-    const car = await prisma.car.create({
+    const car = await prisma.car.create({        
         data: {
             carPlate: 'ABC 123',
             type: 'Small Car',

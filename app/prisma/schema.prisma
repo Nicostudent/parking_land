@@ -18,6 +18,7 @@ model Store {
   capacity  Int
   createdAt DateTime @default(now())
   cars      Car[]
+  storeLogs   StoreLog[]
 }
 
 model Car {
@@ -27,4 +28,12 @@ model Car {
   storeId   Int
   createdAt DateTime @default(now())
   store     Store    @relation(fields: [storeId], references: [id])
+}
+
+model StoreLog {
+id Int @id @default(autoincrement())
+timestamp DateTime @default(now())
+storeId Int
+logData String
+store Store @relation(fields: [storeId], references: [id])
 }
