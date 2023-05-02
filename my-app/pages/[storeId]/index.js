@@ -7,7 +7,7 @@ export default function Cars({ initialCars }) {
 
   useEffect(() => {
     const intervalId = setInterval(async () => {
-      const response = await axios.get(`http://localhost:4000/stores/${initialCars[0].storeId}/cars`)
+      const response = await axios.get(`http://localhost:4000/stores/${initialCars[0]?.storeId}/cars`)
       setCars(response.data)
     }, 500)
     return () => clearInterval(intervalId)
@@ -18,12 +18,14 @@ export default function Cars({ initialCars }) {
     setCars([...cars, response.data])
   }
 
+  console.log("cars", cars)
   return (
-    <div>    
+    <div>          
       {cars.length && cars.map(c => (
         <div key={c.id} className='flex w-48 border-2 border-slate-300 justify-between'> 
           <p>{c.type}</p>
           <p>{c.carPlate}</p>
+          <p>{new Date(c.createdAt).toLocaleString('en-US', { timeStyle: 'short', hour12: false })}</p>
         </div>
       ))}
 

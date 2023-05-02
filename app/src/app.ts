@@ -56,6 +56,7 @@ app.post('/stores/:storeId/cars', async (req: Request, res: Response, next: Next
               carPlate: carPlate,
               type: type,
               storeId: storeId,
+                      
           },
       });
       res.json(car);
