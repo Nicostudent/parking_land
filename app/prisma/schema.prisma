@@ -12,7 +12,7 @@ datasource db {
 
 
 model Store {
-  id        Int      @id @default(autoincrement())
+  id        String      @id @default(uuid())
   name      String
   address   String
   capacity  Int
@@ -25,7 +25,7 @@ model Car {
   id        Int      @id @default(autoincrement())
   carPlate  String
   type      String
-  storeId   Int
+  storeId   String
   createdAt DateTime @default(now())
   store     Store    @relation(fields: [storeId], references: [id])
 }
@@ -33,7 +33,7 @@ model Car {
 model StoreLog {
 id Int @id @default(autoincrement())
 timestamp DateTime @default(now())
-storeId Int
+storeId String
 logData String
 store Store @relation(fields: [storeId], references: [id])
 }

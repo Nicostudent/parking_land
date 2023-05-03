@@ -21,29 +21,38 @@ export default function AddCarForm({ storeId }) {
     }
   };
 
-  
+
 
   return (
     <div className='border-2 border-slate-300 bg-slate-200 m-10'>
       <h2 className='text-center'>Nuevo auto?</h2>
       <form onSubmit={handleSubmit}>
-        <div className='py-2'>
+        <div className='p-2'>
           <label htmlFor="car-plate">Patente numer/letras</label>
-          <input className="focus:bg-green-300"
+          <input className="focus:bg-green-300 ml-2 p-2 rounded-lg"
             id="car-plate"
             type="text"
             value={carPlate}
             onChange={(e) => setCarPlate(e.target.value)}
           />
         </div>
-        <div className='py-2'>
-          <label htmlFor="car-type">Type</label>
-          <input className="focus:bg-green-300 px-2"
-            id="car-type"
-            type="text"
+        <div className='p-2 flex'>
+          <label htmlFor='car-type"' className='block self-center font-medium text-gray-700'>
+            Vehiculo
+          </label>
+          <select
+            id='car-type"'
+            name='text'
+            className='mt-1 block  ml-2 p-2 text-base rounded-md bg-slate-50'
             value={type}
-            onChange={(e) => setType(e.target.value)}
-          />
+            onChange={(event) => setType(event.target.value)}
+          >
+            <option value=''>Tipo</option>
+            <option value='auto'>Auto</option>
+            <option value='camioneta'>Camioneta</option>
+            <option value='pick up'>Pick Up</option>
+            <option value='bicicleta'>Bicicleta</option>
+          </select>
         </div>
         {errorMessage && <p>{errorMessage}</p>}
         <button type="submit">Agregar auto</button>

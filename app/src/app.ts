@@ -29,10 +29,11 @@ app.get('/stores', async (req: Request, res: Response, next: NextFunction) => {
 
 
 app.get('/stores/:storeId/cars', async (req: Request, res: Response, next: NextFunction) => {
+    const storeId = isNaN(Number(req.params.storeId)) ? undefined : Number(req.params.storeId);
   try {
       const cars = await prisma.car.findMany({
           where: {
-              storeId: Number(req.params.storeId),
+              storeId: storeId ? `${storeId}` : undefined,
           },
       });
       res.json(cars);
@@ -42,32 +43,32 @@ app.get('/stores/:storeId/cars', async (req: Request, res: Response, next: NextF
 });
 
 app.post('/stores/:storeId/cars', async (req: Request, res: Response, next: NextFunction) => {
-  try {
-      const { carPlate, type } = req.body;
-      const storeId = Number(req.params.storeId);
-      const store = await prisma.store.findUnique({
-          where: { id: storeId },
-      });
-      if (!store) {
-          return res.status(404).json({ message: `Store with ID ${storeId} not found` });
-      }
-      const car = await prisma.car.create({
-          data: {
-              carPlate: carPlate,
-              type: type,
-              storeId: storeId,
-                      
-          },
-      });
-      res.json(car);
-  } catch (err) {
-      next(err);
-  }
-});
+    try {
+        const { carPlate, type } = req.body;
+        const storeId = req.params.storeId;
+        const store = await prisma.store.findUnique({
+            where: { id: storeId },
+        });
+        if (!store) {
+            return res.status(404).json({ message: `Store with ID ${storeId} not found` });
+        }
+        const car = await prisma.car.create({
+            data: {
+                carPlate: carPlate,
+                type: type,
+                storeId: storeId,
+            },
+        });
+        res.json(car);
+    } catch (err) {
+        next(err);
+    }
+  })
+  
 
 app.delete('/stores/:storeId/cars/:carId', async (req: Request, res: Response, next: NextFunction) => {
   try {
-      const storeId = Number(req.params.storeId);
+      const storeId = req.params.storeId;
       const carId = Number(req.params.carId);
       const car = await prisma.car.findFirst({
           where: {
