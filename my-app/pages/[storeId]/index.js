@@ -40,7 +40,7 @@ export default function Cars({ initialCars }) {
     }
   
     const elapsedTimeInSeconds = Math.floor((Date.now() - Date.parse(car.createdAt)) / 1000);
-    const elapsedTimeInHours = Math.floor((elapsedTimeInSeconds) / 6); // subtract 15 minutes (0.25 hours) from the elapsed time
+    const elapsedTimeInHours = Math.floor((elapsedTimeInSeconds - (15 * 60)) / 3600); // subtract 15 minutes (0.25 hours) from the elapsed time
     
     let cost;
     switch (car.type) {
