@@ -4,6 +4,7 @@ import AddCarForm from './AddCarForm'
 
 export default function Cars({ initialCars }) {
   const [cars, setCars] = useState(initialCars)
+  const [totalCost, setTotalCost] = useState(0)
 
   useEffect(() => {
     const intervalId = setInterval(async () => {
@@ -63,16 +64,24 @@ export default function Cars({ initialCars }) {
     const response = await axios.delete(`http://localhost:4000/stores/${initialCars[0]?.storeId}/cars/${carId}`)
     if (response.status === 200) {
       setCars(cars.filter((c) => c.id !== carId))
+
+       // update the total cost
+         setTotalCost(totalCost + cost);
   
       // show the cost
       alert(`The ${car.type} was parked for ${elapsedTimeInHours} hours and the cost is $${cost}.`);
     }
   }
   
+  const handleTotalPriceChange = (event) => {
+    setTotalCost(parseFloat(event.target.value));
+  }
   
 
   return (
     <div className='border-2 m-2 border-blue-500'>
+       <p>Total price:</p>
+          <input type="number" value={totalCost} onChange={handleTotalPriceChange} />    
       <div className='border-2 w-10/12 flex flex-col justify-center align-middle border-green-700'>
         {cars.length && cars.map((c) => (
           <div key={c.id} className="">
@@ -89,6 +98,9 @@ export default function Cars({ initialCars }) {
 
       <div>
         <AddCarForm storeId={initialCars.length > 0 ? initialCars[0].storeId : null} onSubmit={addCar} />
+      </div>
+      <div>
+        <p>total encaja {totalCost}</p>
       </div>
     </div>
   )
